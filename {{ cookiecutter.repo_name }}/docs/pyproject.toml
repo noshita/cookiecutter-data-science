@@ -2,7 +2,7 @@
 name = "docs"
 version = "0.1.0"
 description = ""
-authors = ["{{ cookiecutter.auth_name }}"]
+authors = ["{{ cookiecutter.author_name }}"]
 license = "CC-BY-4.0"
 
 [tool.poetry.dependencies]
