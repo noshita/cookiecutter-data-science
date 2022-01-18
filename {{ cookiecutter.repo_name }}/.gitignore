@@ -6,7 +6,8 @@
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -245,3 +246,5 @@ ipython_config.py
 #   git rm -r .ipynb_checkpoints/
 
 
+# exclude data from source control by default
+/data/
