@@ -9,6 +9,10 @@ BUCKET = {{ cookiecutter.s3_bucket }}
 PROFILE = {{ cookiecutter.aws_profile }}
 PROJECT_NAME = {{ cookiecutter.repo_name }}
 PYTHON_INTERPRETER = {{ cookiecutter.python_interpreter }}
+JUPYTER_BOOK = poetry run jupyter-book
+AWS_CLI = poetry run aws
+DOC_DIR = $(PROJECT_DIR)/docs
+ENDPOINT_URL = {{ cookiecutter.s3_endpoint_url }}
 
 ifeq (,$(shell which conda))
 HAS_CONDA=False
@@ -41,17 +45,17 @@ lint:
 ## Upload Data to S3
 sync_data_to_s3:
 ifeq (default,$(PROFILE))
-	aws s3 sync data/ s3://$(BUCKET)/data/
+	$(AWS_CLI) s3 sync data/ s3://$(BUCKET)/data/
 else
-	aws s3 sync data/ s3://$(BUCKET)/data/ --profile $(PROFILE)
+	$(AWS_CLI) s3 sync data/ s3://$(BUCKET)/data/ --profile $(PROFILE)
 endif
 
 ## Download Data from S3
 sync_data_from_s3:
 ifeq (default,$(PROFILE))
-	aws s3 sync s3://$(BUCKET)/data/ data/
+	$(AWS_CLI) s3 sync s3://$(BUCKET)/data/ data/
 else
-	aws s3 sync s3://$(BUCKET)/data/ data/ --profile $(PROFILE)
+	$(AWS_CLI) s3 sync s3://$(BUCKET)/data/ data/ --profile $(PROFILE)
 endif
 
 ## Set up python interpreter environment
@@ -80,6 +84,8 @@ test_environment:
 # PROJECT RULES                                                                 #
 #################################################################################
 
+doc:
+	cd $(DOC_DIR) && $(JUPYTER_BOOK) build .
 
 
 #################################################################################
